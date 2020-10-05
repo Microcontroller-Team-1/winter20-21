@@ -1,4 +1,16 @@
+<<<<<<< Updated upstream
 Amjad Malik
 Farid Shabri
 Iqbal Fauzi
 Amirul Hakimi
+=======
+<<<<<<< HEAD
+Kimi
+
+=======
+Amjad Malik
+Farid Shabri
+Iqbal Fauzi
+Amirul Hakimi
+>>>>>>> ac7e8bc390ac3d451cdcdda5c1dfe81e0fe52a62
+>>>>>>> Stashed changes
