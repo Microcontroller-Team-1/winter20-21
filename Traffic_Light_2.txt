@@ -1,9 +1,9 @@
-int button = 12;
-int red_car = 11;
-int yellow = 9;
-int green_car = 10;
+int button = 7;
+int red_car = 3;
+int yellow = 4;
+int green_car = 5;
 int red_pdstrn = 8;
-int green_pdstrn =7 ;
+int green_pdstrn =9 ;
 
 void setup() {
   
