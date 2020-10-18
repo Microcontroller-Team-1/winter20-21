@@ -25,7 +25,7 @@ void loop() {
  if (digitalRead(button) == HIGH){
         delay(10); // software debounce
         if (digitalRead(button) == HIGH) {
-            // if the switch is HIGH, ie. the button is being pressed - change the lights!
+            // if the switch is HIGH, ie. the button is being pressed - waiting for light to change
             changeLights();
             delay(1000);
         }
@@ -33,7 +33,7 @@ void loop() {
  }
 
 void changeLights(){
-    // green_car off, yellow on for 3 seconds
+    // green_car off, yellow on for 2 seconds
     digitalWrite(green_car, LOW);
     digitalWrite(yellow, HIGH);
     digitalWrite(red_car, LOW);
