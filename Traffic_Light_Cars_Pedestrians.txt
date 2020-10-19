@@ -1,0 +1,59 @@
+int button = 7;
+int red_car = 3;
+int yellow = 4;
+int green_car = 5;
+int red_pdstrn = 8;
+int green_pdstrn =9 ;
+
+void setup() {
+  
+    pinMode(red_car, OUTPUT);
+    pinMode(yellow, OUTPUT);
+    pinMode(green_car, OUTPUT);
+    pinMode(red_pdstrn, OUTPUT);
+    pinMode(green_pdstrn, OUTPUT);
+    pinMode(button, INPUT);
+    digitalWrite(green_car, HIGH);
+    digitalWrite(red_car, LOW);
+    digitalWrite(yellow, LOW);
+    digitalWrite(red_pdstrn, HIGH);
+    digitalWrite(green_pdstrn, LOW);
+}
+
+
+void loop() {
+ if (digitalRead(button) == HIGH){
+        delay(10); // software debounce
+        if (digitalRead(button) == HIGH) {
+            // if the switch is HIGH, ie. the button is being pressed - waiting for light to change
+            changeLights();
+            delay(1000);
+        }
+    }
+ }
+
+void changeLights(){
+    // green_car off, yellow on for 2 seconds
+    digitalWrite(green_car, LOW);
+    digitalWrite(yellow, HIGH);
+    digitalWrite(red_car, LOW);
+    digitalWrite(green_pdstrn, LOW);
+    digitalWrite(red_pdstrn, HIGH);
+    delay(2000);
+    
+    // turn off yellow, then turn red.car on for 10 seconds
+    digitalWrite(green_car, LOW);
+    digitalWrite(yellow, LOW);
+    digitalWrite(red_car, HIGH);
+    digitalWrite(green_pdstrn, HIGH);
+    digitalWrite(red_pdstrn, LOW);
+    delay(10000);
+
+    // turn off red.car and yellow, then turn on green.car
+    digitalWrite(green_car, HIGH);
+    digitalWrite(yellow, LOW);
+    digitalWrite(red_car, LOW);
+    digitalWrite(green_pdstrn, LOW);
+    digitalWrite(red_pdstrn, HIGH);
+    delay(10000);
+}
