@@ -1,9 +1,51 @@
+class LED
+{
+public:
+int pin;
+void HIGH();
+void LOW();
+};
+
+class BUTTON
+{
+public :
+int pin;
+int press();
+
+};
+
+LED red_car, yellow_car, green_car, red_pdstrn, green_pdstrn,
+BUTTON Button
+
+void LED::on()
+{
+digitalWrite(pin,HIGH);
+}
+
+void LED::off()
+{
+digitalWrite(pin,LOW);
+}
+
+int BUTTON::press()
+{
+int value; 
+value = digitalRead(Button.pin);
+return value;
+}
+
+
 int button = 7;
 int red_car = 3;
 int yellow = 4;
 int green_car = 5;
 int red_pdstrn = 8;
 int green_pdstrn =9 ;
+
+//state car
+int car_move = 0
+int car_ready_to_stop = 1
+int car_stop = 2
 
 void setup() {
   
@@ -22,38 +64,39 @@ void setup() {
 
 
 void loop() {
- if (digitalRead(button) == HIGH){
-        delay(10); // software debounce
-        if (digitalRead(button) == HIGH) {
-            // if the switch is HIGH, ie. the button is being pressed - waiting for light to change
-            changeLights();
-            delay(1000);
-        }
-    }
- }
-
-void changeLights(){
-    // green_car off, yellow on for 2 seconds
-    digitalWrite(green_car, LOW);
-    digitalWrite(yellow, HIGH);
-    digitalWrite(red_car, LOW);
-    digitalWrite(green_pdstrn, LOW);
-    digitalWrite(red_pdstrn, HIGH);
-    delay(2000);
-    
-    // turn off yellow, then turn red.car on for 10 seconds
-    digitalWrite(green_car, LOW);
-    digitalWrite(yellow, LOW);
-    digitalWrite(red_car, HIGH);
-    digitalWrite(green_pdstrn, HIGH);
-    digitalWrite(red_pdstrn, LOW);
-    delay(10000);
-
-    // turn off red.car and yellow, then turn on green.car
-    digitalWrite(green_car, HIGH);
-    digitalWrite(yellow, LOW);
-    digitalWrite(red_car, LOW);
-    digitalWrite(green_pdstrn, LOW);
-    digitalWrite(red_pdstrn, HIGH);
-    delay(10000);
+switch(state)
+{
+ case car_move:
+ green_car.on();
+ while(Button.push()!=1)
+{
+ red_pdstrn.on();
 }
+delay(1000);
+green_car.off();
+state = car_ready_stop;
+break;
+
+// green_car off, yellow on for 2 seconds 
+
+case car_ready_stop;
+yellow_car.on();
+delay(2000);
+yellow_car.off();
+state = car_stop;
+break;
+
+  // turn off yellow, then turn red.car on for 10 seconds
+
+case car stop;
+red_car.on();
+red_pdstrn.off();
+green_pdstrn.on();
+delay (10000);
+green_pdstrn.off();
+red_pdstrn.on();
+red_car.off();
+break;
+
+  // turn off red.car, then turn on green.car
+
