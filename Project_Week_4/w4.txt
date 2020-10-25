@@ -49,8 +49,8 @@ int car_ready_to_move = 2
 int car_stop = 3
 
 
-int BUTTON_bus = 7;
-int BUTTON_pdstrn= 7;
+int BUTTON_bus = 10;
+int BUTTON_pdstrn= 11;
 int red_car = 3;
 int yellow = 4;
 int green_car = 5;
@@ -72,4 +72,11 @@ void setup() {
     digitalWrite(red_car, LOW);
     digitalWrite(yellow, LOW);
     digitalWrite(red_pdstrn, HIGH);
-    digitalWrite(green_pdstrn, LOW);
+    digitalWrite(green_pdstrn, 
+
+
+
+
+
+
+
