@@ -15,7 +15,7 @@ int press();
 };
 
 LED red_car, yellow_car, green_car, red_pdstrn, green_pdstrn,
-BUTTON Button_car, Button_bus;
+BUTTON Button_pdstrn, Button_bus;
 
 void LED::HIGH()
 {
