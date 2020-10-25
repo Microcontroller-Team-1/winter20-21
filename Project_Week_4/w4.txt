@@ -48,6 +48,8 @@ int car_ready_to_stop = 1
 int car_ready_to_move = 2
 int car_stop = 3
 
+int state = 0
+
 
 int Button_bus = 10;
 int Button_pdstrn= 11;
@@ -56,29 +58,28 @@ int yellow = 4;
 int green_car = 5;
 int red_pdstrn = 8;
 int green_pdstrn =9 ;
-int on = HIGH;
-int off = LOW;
+
 
 void setup() {
   
-    pinMode(red_car, OUTPUT);
-    pinMode(yellow_car, OUTPUT);
-    pinMode(green_car, OUTPUT);
-    pinMode(red_pdstrn, OUTPUT);
-    pinMode(green_pdstrn, OUTPUT);
-    pinMode(button_pdstrn, INPUT);
-    pinMode(button_bus, INPUT);
-    digitalWrite(green_car, HIGH);
-    digitalWrite(green_car, HIGH);
-    digitalWrite(red_car, HIGH);
-    digitalWrite(yellow_car, HIGH);
-    digitalWrite(green_car, LOW);
-    digitalWrite(yellow_car, LOW);
-    digitalWrite(red_car, LOW);
-    digitalWrite(red_pdstrn, HIGH);
-    digitalWrite(green_pdstrn,HIGH); 
-    digitalWrite(red_pdstrn,LOW); 
-    digitalWrite(green_pdstrn,LOW); 
+    pinMode(red_car.pin, OUTPUT);
+    pinMode(yellow_car.pin, OUTPUT);
+    pinMode(green_car.pin, OUTPUT);
+    pinMode(red_pdstrn.pin, OUTPUT);
+    pinMode(green_pdstrn.pin, OUTPUT);
+    pinMode(button_pdstrn.pin, INPUT);
+    pinMode(button_bus.pin, INPUT);
+    digitalWrite(green_car.pin, HIGH);
+    digitalWrite(green_car.pin, HIGH);
+    digitalWrite(red_car.pin, HIGH);
+    digitalWrite(yellow_car.pin, HIGH);
+    digitalWrite(green_car.pin, LOW);
+    digitalWrite(yellow_car.pin, LOW);
+    digitalWrite(red_car.pin, LOW);
+    digitalWrite(red_pdstrn.pin, HIGH);
+    digitalWrite(green_pdstrn.pin,HIGH); 
+    digitalWrite(red_pdstrn.pin,LOW); 
+    digitalWrite(green_pdstrn.pin,LOW); 
 
 }
 
