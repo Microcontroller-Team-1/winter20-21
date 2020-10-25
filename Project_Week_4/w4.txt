@@ -115,9 +115,9 @@ swich (state)
  
 
 case car_ready_to_stop:
-yellow.on();
+yellow_car.on();
 delay(2000);
-yellow.off();
+yellow_car.off();
 state = car_stop
 break;
 
@@ -129,6 +129,22 @@ green_pdstrn.on();
 
 
     while((millis()--)<10000)
+
+
+
+
+
+case car_ready_to_move:
+yellow_car.on();
+delay(2000);
+yellow_car.off();
+state = car_move
+break;
+
+
+
+
+
 
 
 
