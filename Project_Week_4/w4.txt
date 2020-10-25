@@ -2,76 +2,71 @@ class LED
 {
 public:
 int pin;
-void HIGH();
-void LOW();
+void on();
+void off();
 };
 
 class BUTTON
 {
 public :
 int pin;
-int press();
+int tekan();
 
 };
 
-LED red_car, yellow_car, green_car, red_pdstrn, green_pdstrn,
+LED red_car, yellow_car, green_car, red_pdstrn, green_pdstrn;
 BUTTON Button_pdstrn, Button_bus;
 
-void LED::HIGH()
+
+void LED::on()
 {
-digitalWrite(pin,on);
+digitalWrite(pin,HIGH);
 }
 
-void LED::LOW()
+void LED::off()
 {
-digitalWrite(pin,off);
+digitalWrite(pin,LOW);
 }
 
-int Button_pdstrn::press()
+int BUTTON::tekan()
 {
 int value; 
-value = digitalRead(Button_pdstrn.pin);
+value = digitalRead(pin);
 return value;
 }
 
-int Button_bus::press()
-{
-int value; 
-value = digitalRead(Button_bus.pin);
-return value;
-}
 
 
 //state car
-int car_move = 0
-int car_ready_to_stop = 1
-int car_ready_to_move = 2
-int car_stop = 3
-int bus_ready_to_move = 4
-int bus_move = 5
-int bus_ready_to_stop = 6 
+#define car_move  0
+#define car_ready_to_stop 1
+#define car_ready_to_move 2
+#define car_stop 3
+#define bus_ready_to_move 4
+#define bus_move 5
+#define bus_ready_to_stop 6
 
-int state = 0
+int state = 0;
 
 
-int Button_bus = 10;
-int Button_pdstrn= 11;
-int red_car = 3;
-int yellow = 4;
-int green_car = 5;
-int red_pdstrn = 8;
-int green_pdstrn =9 ;
+ 
 unsigned long starting_time;
 
 void setup() {
-  
+    Button_bus.pin = 10;
+  Button_pdstrn.pin = 11;
+ red_car.pin = 3;
+ yellow_car.pin = 4;
+ green_car.pin = 5;
+ red_pdstrn.pin = 8;
+ green_pdstrn.pin=9;
     pinMode(red_car.pin, OUTPUT);
     pinMode(yellow_car.pin, OUTPUT);
     pinMode(green_car.pin, OUTPUT);
     pinMode(red_pdstrn.pin, OUTPUT);
     pinMode(green_pdstrn.pin, OUTPUT);
-    pinMode(button_pdstrn.pin, INPUT);
-    pinMode(button_bus.pin, INPUT);
+    pinMode(Button_pdstrn.pin, INPUT);
+    pinMode(Button_bus.pin, INPUT);
     digitalWrite(green_car.pin, HIGH);
     digitalWrite(green_car.pin, HIGH);
     digitalWrite(red_car.pin, HIGH);
@@ -80,49 +75,50 @@ void setup() {
     digitalWrite(yellow_car.pin, LOW);
     digitalWrite(red_car.pin, LOW);
     digitalWrite(red_pdstrn.pin, HIGH);
-    digitalWrite(green_pdstrn.pin,HIGH); 
-    digitalWrite(red_pdstrn.pin,LOW); 
-    digitalWrite(green_pdstrn.pin,LOW); 
+    digitalWrite(green_pdstrn.pin, HIGH);
+    digitalWrite(red_pdstrn.pin, LOW);
+    digitalWrite(green_pdstrn.pin,LOW);
 
 }
 
 void loop()
 {
-swich (state)
+switch (state)
 {
     case car_move:
     green_car.on();
     red_pdstrn.on();
 
     starting_time=millis();
-    int default =10000
+    int defaults =10000;
     while(true)
-	{   
-    		if(digitalRead(Button_bus)==1)
-			{
-    				green_car.on();
-    				red_pdstrn.on();
-				default=20000;
+  {   
+        if(digitalRead(Button_bus.pin)==1)
+      {
+            green_car.on();
+            red_pdstrn.on();
+        defaults=20000;
 
-			}
-    		else if(digitalRead(Button_pdstrn)==1 && millis()-starting_time=>default)
+      }
+        else if(digitalRead(Button_pdstrn.pin)==1 && (millis()-starting_time>defaults))
 
-			{
-  				
-  				state=car_ready_to_stop;
-  				break;
+      {
+          
+          state=car_ready_to_stop;
+          break;
 
-			}
+      }
 
 
- 	}
+
+  }
 
     
     case car_ready_to_stop:
     yellow_car.on();
     delay(2000);
     yellow_car.off();
-    state = car_stop
+    state = car_stop;
     break;
 
 
@@ -130,38 +126,40 @@ swich (state)
     red_car.on();
     green_pdstrn.on();
 
-    starting_time=0
+    starting_time=0;
     starting_time=millis();
-    int default =10000
+    
     while(true)
-
-while(digitalRead(Button_bus)==1 && delay(2000)
-    {	
-	yellow_car.on();
-    	red_pdstrn.on();
-    	delay(10000);
-    	yellow_car.off();
-    	green_car.on();
-    	delay(10000);
-    	yellow_car.on();
-    	delay(2000);
-    	yellow_car.off();
-    }
-
+  {
+    starting_time=millis();
+    while(millis()-starting_time>2000)
+    {
+      while(digitalRead(Button_bus.pin)==1)
+          {  
+             yellow_car.on();
+            red_pdstrn.on();
+            delay(10000);
+            yellow_car.off();
+            green_car.on();
+            delay(10000);
+            yellow_car.on();
+            delay(2000);
+            yellow_car.off();
+          }
+  }
+  }
 
 
     
-
-
-    
+   
     case car_ready_to_move:
     yellow_car.on();
     delay(1000);
     yellow_car.off();
-    state = car_move
+    state = car_move;
     break;
-
-
+}
+}
 
 
 
