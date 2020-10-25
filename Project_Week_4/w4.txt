@@ -104,6 +104,14 @@ swich (state)
     green_car.off();
     state=car_ready_to_stop;
     break;
+
+case car_ready_to_stop:
+yellow.on();
+delay(2000);
+yellow.off();
+state = car_stop
+break;
+
  
     
     
