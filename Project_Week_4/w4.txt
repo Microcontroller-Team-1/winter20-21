@@ -27,14 +27,14 @@ void LED::LOW()
 digitalWrite(pin,off);
 }
 
-int BUTTON_pdstrn::press()
+int Button_pdstrn::press()
 {
 int value; 
 value = digitalRead(Button_pdstrn.pin);
 return value;
 }
 
-int BUTTON_bus::press()
+int Button_bus::press()
 {
 int value; 
 value = digitalRead(Button_bus.pin);
@@ -49,8 +49,8 @@ int car_ready_to_move = 2
 int car_stop = 3
 
 
-int BUTTON_bus = 10;
-int BUTTON_pdstrn= 11;
+int Button_bus = 10;
+int Button_pdstrn= 11;
 int red_car = 3;
 int yellow = 4;
 int green_car = 5;
@@ -85,8 +85,12 @@ void setup() {
 void loop()
 {
 swich (state)
-
-
+{
+    case car_move:
+    green_car();
+ 
+    while(Button_bus.press()!=
+  
 
 
 
