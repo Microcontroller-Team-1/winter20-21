@@ -69,10 +69,24 @@ void setup() {
     pinMode(button_pdstrn, INPUT);
     pinMode(button_bus, INPUT);
     digitalWrite(green_car, HIGH);
-    digitalWrite(red_car, LOW);
+    digitalWrite(green_car, HIGH);
+    digitalWrite(red_car, HIGH);
+    digitalWrite(yellow_car, HIGH);
+    digitalWrite(green_car, LOW);
     digitalWrite(yellow_car, LOW);
+    digitalWrite(red_car, LOW);
     digitalWrite(red_pdstrn, HIGH);
     digitalWrite(green_pdstrn,HIGH); 
+    digitalWrite(red_pdstrn,LOW); 
+    digitalWrite(green_pdstrn,LOW); 
+
+}
+
+void loop()
+{
+swich (state)
+
+
 
 
 
