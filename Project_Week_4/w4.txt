@@ -88,9 +88,25 @@ void loop()
 swich (state)
 {
     case car_move:
-    green_car();
+    green_car.on();
+    red_pdstrn.on();
+
+    unsigned long starting_time=millis();
+
+    while((millis()-starting_time)<10000)
+{   
+    if(digitalRead(Button_bus)==1)
+
+{    
+    green_car.on();
+    red_pdstrn.on();
+ }
+    green_car.off();
+    state=car_ready_to_stop;
+    break;
  
-    while(Button_bus.press()!=
+    
+    
   
 
 
