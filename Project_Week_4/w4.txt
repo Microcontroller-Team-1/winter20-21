@@ -11,6 +11,7 @@ class BUTTON
 public :
 int pin;
 int press();
+
 };
 
 LED red_car, yellow_car, green_car, red_pdstrn, green_pdstrn,
@@ -40,6 +41,7 @@ value = digitalRead(Button_bus.pin);
 return value;
 }
 
+
 //state car
 int car_move = 0
 int car_ready_to_stop = 1
@@ -47,7 +49,8 @@ int car_ready_to_move = 2
 int car_stop = 3
 
 
-int button = 7;
+int BUTTON_bus = 7;
+int BUTTON_pdstrn= 7;
 int red_car = 3;
 int yellow = 4;
 int green_car = 5;
