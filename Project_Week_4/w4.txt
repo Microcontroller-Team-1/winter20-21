@@ -83,32 +83,15 @@ void setup() {
 
 }
 
-    void loop()
+void loop()
 {
-    swich (state)
+swich (state)
 {
     case car_move:
     green_car();
  
-    while(Button_bus.press()!=1)
-
-{
-    red_pdstrn.HIGH();
-}
-    green_car.HIGH();
-    red_pdstrn.LOW();
-    delay(10000);
-    green_car.LOW();
-    break;
-
-    case car_ready_stop:
-   
-    yellow_car.HIGH();
-    delay(10000);
-    yellow_car.LOw();
-
+    while(Button_bus.press()!=
   
-
 
 
 
