@@ -23,7 +23,7 @@ digitalWrite(pin,on);
 
 void LED::LOW()
 {
-digitalWrite(pin,LOW);
+digitalWrite(pin,off);
 }
 
 int BUTTON_pdstrn::press()
