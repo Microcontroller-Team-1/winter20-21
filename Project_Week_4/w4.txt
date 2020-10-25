@@ -47,6 +47,9 @@ int car_move = 0
 int car_ready_to_stop = 1
 int car_ready_to_move = 2
 int car_stop = 3
+int bus_ready_to_move = 4
+int bus_move = 5
+int bus_ready_to_stop = 6 
 
 int state = 0
 
@@ -96,14 +99,20 @@ swich (state)
     while((millis()-starting_time)<10000)
 {   
     if(digitalRead(Button_bus)==1)
-
-{    
     green_car.on();
     red_pdstrn.on();
+
+}
+ else(digitalRead(Button_pdstrn)==1)
+
+{
+  delay(10000);
+  state=car_ready_to_stop;
+  break;
+
  }
-    green_car.off();
-    state=car_ready_to_stop;
-    break;
+
+ 
 
 case car_ready_to_stop:
 yellow.on();
@@ -111,6 +120,18 @@ delay(2000);
 yellow.off();
 state = car_stop
 break;
+
+
+case car_stop:
+  
+rer_car.on();
+green_pdstrn.on();
+
+
+    while((millis()--)<10000)
+
+
+
 
  
     
