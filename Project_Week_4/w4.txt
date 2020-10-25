@@ -1,0 +1,72 @@
+class LED
+{
+public:
+int pin;
+void HIGH();
+void LOW();
+};
+
+class BUTTON
+{
+public :
+int pin;
+int press();
+};
+
+LED red_car, yellow_car, green_car, red_pdstrn, green_pdstrn,
+BUTTON Button_car, Button_bus;
+
+void LED::HIGH()
+{
+digitalWrite(pin,on);
+}
+
+void LED::LOW()
+{
+digitalWrite(pin,LOW);
+}
+
+int BUTTON_pdstrn::press()
+{
+int value; 
+value = digitalRead(Button_pdstrn.pin);
+return value;
+}
+
+int BUTTON_bus::press()
+{
+int value; 
+value = digitalRead(Button_bus.pin);
+return value;
+}
+
+//state car
+int car_move = 0
+int car_ready_to_stop = 1
+int car_ready_to_move = 2
+int car_stop = 3
+
+
+int button = 7;
+int red_car = 3;
+int yellow = 4;
+int green_car = 5;
+int red_pdstrn = 8;
+int green_pdstrn =9 ;
+int on = HIGH;
+int off = LOW;
+
+void setup() {
+  
+    pinMode(red_car, OUTPUT);
+    pinMode(yellow, OUTPUT);
+    pinMode(green_car, OUTPUT);
+    pinMode(red_pdstrn, OUTPUT);
+    pinMode(green_pdstrn, OUTPUT);
+    pinMode(button_pdstrn, INPUT);
+    pinMode(button_bus, INPUT);
+    digitalWrite(green_car, HIGH);
+    digitalWrite(red_car, LOW);
+    digitalWrite(yellow, LOW);
+    digitalWrite(red_pdstrn, HIGH);
+    digitalWrite(green_pdstrn, LOW);
