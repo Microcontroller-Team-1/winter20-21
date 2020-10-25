@@ -62,7 +62,7 @@ int off = LOW;
 void setup() {
   
     pinMode(red_car, OUTPUT);
-    pinMode(yellow, OUTPUT);
+    pinMode(yellow_car, OUTPUT);
     pinMode(green_car, OUTPUT);
     pinMode(red_pdstrn, OUTPUT);
     pinMode(green_pdstrn, OUTPUT);
@@ -70,9 +70,9 @@ void setup() {
     pinMode(button_bus, INPUT);
     digitalWrite(green_car, HIGH);
     digitalWrite(red_car, LOW);
-    digitalWrite(yellow, LOW);
+    digitalWrite(yellow_car, LOW);
     digitalWrite(red_pdstrn, HIGH);
-    digitalWrite(green_pdstrn, 
+    digitalWrite(green_pdstrn,HIGH); 
 
 
 
