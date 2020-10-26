@@ -47,7 +47,7 @@ return value;
 #define bus_ready_to_stop 6
 
 int state = 0;
-
+int defaults =10000;
 
  
 unsigned long starting_time;
@@ -90,7 +90,7 @@ switch (state)
     red_pdstrn.on();
 
     starting_time=millis();
-    int defaults =10000;
+    
     while(true)
   {   
         if(digitalRead(Button_bus.pin)==1)
@@ -160,20 +160,3 @@ switch (state)
     break;
 }
 }
-
-
-
-
-
-
-
- 
-    
-    
-  
-
-
-
-
-
-
