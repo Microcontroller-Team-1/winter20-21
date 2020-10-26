@@ -115,6 +115,7 @@ switch (state)
 
     
     case car_ready_to_stop:
+    green_car.off();
     yellow_car.on();
     delay(2000);
     yellow_car.off();
@@ -124,6 +125,7 @@ switch (state)
 
     case car_stop:
     red_car.on();
+    red_pdstrn.off();
     green_pdstrn.on();
 
     starting_time=0;
@@ -137,17 +139,32 @@ switch (state)
       while(digitalRead(Button_bus.pin)==1)
           {  
              yellow_car.on();
+        	green_pdstrn.off();
             red_pdstrn.on();
             delay(10000);
             yellow_car.off();
             green_car.on();
             delay(10000);
+        	green_car.off();
             yellow_car.on();
             delay(2000);
             yellow_car.off();
           }
-  }
-  }
+     
+     }
+   
+      delay(5000);
+      green_pdstrn.off();
+      red_car.off();
+      red_pdstrn.on();
+      state = car_ready_to_move;
+      
+  	  break;
+    }
+      
+      
+      
+  
 
 
     
