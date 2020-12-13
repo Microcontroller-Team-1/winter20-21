@@ -1,0 +1,300 @@
+#define MY_DEBUG
+#define MY_RADIO_NRF24
+#define MY_NODE_ID 2
+ 
+//Specify the ID of every sensor. This will help you identifying the MQTT messages.
+#define CHILD_ID_TEMP 0 //ID of the temperature sensor
+#define CHILD_ID_HUM 1 //ID of the Humidity Sensor
+#define CHILD_ID_HVAC_COOL 2 //ID of the sensor that indicates when the AC is ON. 
+#define CHILD_ID_HVAC_HEAT 3 //ID of the sensor that indicates when HEAT is ON. 
+ 
+ 
+//The Pin where the DHT22 sensor is connected.
+#define DHT_DATA_PIN 3
+//Constant to identify the DHT sensor type. In my case is DHT22
+#define DHTTYPE DHT22 
+//Allows you to define an offset for the temperature. It is useful if the sensor is inside an enclosure for example. 
+#define SENSOR_TEMP_OFFSET 0
+// The relays are controlled by the pin 7 and 8. You can call then in a way that is meaningful to you.
+#define RELAY_HEAT 7 
+#define RELAY_REVERSE_VALVE 8
+ 
+ 
+ 
+ 
+#include <MySensors.h>  
+ 
+/**************************************************/
+/****************** CONSTANTS *********************/
+/**************************************************/
+//Constant to specify how often will the thermostat evaluate the temperature and take an action. Turn on the AC for example. 
+static const uint64_t UPDATE_INTERVAL = 10000;
+static const uint64_t FORCE_UPDATE_N_READS = 3;
+static const uint8_t   = 10;
+ 
+ 
+/**************************************************/
+/****************** VARIABLES *********************/
+/**************************************************/
+//Variables to keep track of the temperature and the humidity. 
+float   lastTemp;
+float   lastHum;
+float   temperature = 24.0;
+float   humidity;
+float   targetTemp = 24.0;
+int     statusHVAC = 0;
+uint8_t nNoUpdatesTemp;
+uint8_t nNoUpdatesHum;
+ 
+/**************************************************/
+/****************** MESSAGES **********************/
+/**************************************************/
+ 
+//Define your mysensor messages to communicate with OpenHab
+ 
+MyMessage msgHum(CHILD_ID_HUM, V_HUM);
+MyMessage msgTemp(CHILD_ID_TEMP, V_TEMP);
+MyMessage msgCool(CHILD_ID_HVAC_COOL, V_CUSTOM);
+MyMessage msgHeat(CHILD_ID_HVAC_HEAT, V_CUSTOM);
+ 
+DHT dht(DHT_DATA_PIN, DHTTYPE);
+ 
+ 
+void presentation()  
+{ 
+  present(CHILD_ID_HUM, S_HUM);
+  present(CHILD_ID_TEMP, S_TEMP);
+  present(CHILD_ID_HVAC_COOL, S_HVAC);
+  present(CHILD_ID_HVAC_HEAT, S_HVAC);
+}
+ 
+ 
+void setup()
+{
+ 
+//Before I do anything, I want to make sure that all the relays are opened (nothing is connected) 
+   //Setup all the Arduino Pins
+   pinMode(RELAY_HEAT, OUTPUT);
+   pinMode(RELAY_REVERSE_VALVE, OUTPUT);   
+ 
+   digitalWrite(RELAY_HEAT,HIGH);
+   digitalWrite(RELAY_REVERSE_VALVE,HIGH);
+ 
+      
+   delay(2000); //Wait 2 seconds before starting sequence
+ 
+  dht.begin();
+ 
+//Load the latest target temperature and status from the eprom, just in case my arduino loses power. 
+  targetTemp = loadState(0);
+  statusHVAC = loadState(1);
+}
+ 
+ 
+void loop()      
+{ //Retrieve teh value of the temperature and the hummidiy from the DHT22 
+  sendTemperatureHumiditySensor();
+  //Take an action opening or closing the relays if needed. 
+  HVACycle();
+  
+  wait(UPDATE_INTERVAL);
+}
+ 
+ 
+ 
+/**************************************************/
+/**************** AUX. FUNCTIONS ******************/
+/**************************************************/
+ 
+//This is the main function, it turn ON or OFF AC or HEAT when the current temperature falls out of range.
+ 
+void HVACycle()
+{
+ 
+  if(statusHVAC == 0)
+    {
+    hvacCommand(0,1);
+    hvacCommand(0,2);
+    printStatus();  
+    }
+  if(statusHVAC == 1)
+    {
+      if(temperature > targetTemp)
+        {
+          if(abs(temperature - targetTemp) >= 1)
+            {
+            hvacCommand(0,1);
+            printStatus(); 
+            }    
+          else
+            printStatus();             
+        }
+       else
+        {
+          if(abs(temperature - targetTemp) >= 1)
+            {
+            hvacCommand(1,1);
+            printStatus(); 
+            }
+          else
+            printStatus();
+        }            
+    }
+  if(statusHVAC == 2)
+    {
+      if(temperature > targetTemp)
+        {
+          if(abs(temperature - targetTemp) >= 1)
+            {
+            hvacCommand(1,2);
+            printStatus(); 
+            }    
+          else
+            printStatus();             
+        }
+       else
+        {
+          if(abs(temperature - targetTemp) >= 1)
+            {
+            hvacCommand(0,2);
+            printStatus(); 
+            }
+          else
+            printStatus();
+        }
+      }
+}
+ 
+ 
+void printStatus()
+{
+            Serial.print("\nTemperature: ");
+            Serial.print(temperature);
+            Serial.print("\nTarget: ");
+            Serial.print(targetTemp);      
+            Serial.print("\nStatus: ");  
+            Serial.print(abs(temperature - targetTemp)); 
+            Serial.print("\nMode: ");  
+            Serial.print(statusHVAC);   
+}
+ 
+/************ hvacCommand ****************/
+/* command: 0 -> ON 1 -> OFF
+ *  hvacStatus: 1-> HEAT 2-> AC
+ */
+/*****************************************/
+ 
+//This function is very important. It basically describes how to turn ON the AC or the HEAT opening or closing the relays. 
+//Review it carefully and adapt it to your needs.
+void hvacCommand(int command,int hvacStatus)
+{
+  if(command == 0)
+    {
+        if(digitalRead(RELAY_REVERSE_VALVE) != HIGH)
+          digitalWrite(RELAY_REVERSE_VALVE, HIGH);
+        if(digitalRead(RELAY_HEAT) != HIGH)
+          digitalWrite(RELAY_HEAT, HIGH);
+        send(msgHeat.set(0));          
+        send(msgCool.set(0));          
+        }         
+  else if(command == 1)  
+      {
+      if(hvacStatus==1)
+        {
+        //When I close the relay between terminals R and Y my unit turns ON the HEAT  
+        if(digitalRead(RELAY_HEAT) != LOW)
+          digitalWrite(RELAY_HEAT, LOW);
+        send(msgHeat.set(1));
+        } 
+      if(hvacStatus==2)
+        {
+        //When I close the relays between terminals R and Y and R and Reverse Valve (O/B) my unit turn ON the AC. Please adapt it to your own needs. 
+        if(digitalRead(RELAY_REVERSE_VALVE) != LOW)
+          digitalWrite(RELAY_REVERSE_VALVE, LOW);
+        if(digitalRead(RELAY_HEAT) != LOW)
+          digitalWrite(RELAY_HEAT, LOW);
+        send(msgCool.set(1));
+        }
+    }  
+}
+ 
+       /* send(msgHeat.set(1)) and send(msgCool.set(1)) are only for accountability purposes. 
+        *  I want to send a message to my Home Automation Controller when the unit turns ON a function. 
+        *  It helps me keeping track of the usage.
+        */
+        
+ 
+/* This functions reads the temperature from the DHT22 and send it to the gateway. 
+ *  You can probabbly use it as it is. 
+ */
+ 
+void sendTemperatureHumiditySensor()
+  {
+  temperature = dht.readTemperature();
+  humidity = dht.readHumidity();
+  
+  if (isnan(temperature)) 
+    {
+    Serial.println("Failed reading temperature from DHT!");
+    } else if (temperature != lastTemp || nNoUpdatesTemp == FORCE_UPDATE_N_READS) 
+      {
+      lastTemp = temperature;
+      nNoUpdatesTemp = 0;
+      temperature += SENSOR_TEMP_OFFSET;
+      send(msgTemp.set(temperature, 1));
+    
+      #ifdef MY_DEBUG
+        Serial.print("T: ");
+        Serial.println(temperature);
+      #endif
+    } else 
+      {
+      nNoUpdatesTemp++;
+      }
+ 
+  if (isnan(humidity)) 
+    {
+    Serial.println("Failed reading humidity from DHT");
+    } else if (humidity != lastHum || nNoUpdatesHum == FORCE_UPDATE_N_READS)
+      {
+      lastHum = humidity;
+      nNoUpdatesHum = 0;
+      send(msgHum.set(humidity, 1));
+ 
+      #ifdef MY_DEBUG
+        Serial.print("H: ");
+        Serial.println(humidity);
+      #endif
+      } else 
+        {
+        nNoUpdatesHum++;
+        }    
+  }
+ 
+/* This function listens to the gateway to receive the commands
+ *  It captures the target temperature and the mode of the Arduino thermostat: AC or HEAT.
+ */
+ 
+void receive(const MyMessage &message) {
+ 
+    Serial.print(("New message: "));
+    Serial.println(message.type);
+    Serial.println(message.getInt());
+ 
+   if (message.type == V_HVAC_SETPOINT_COOL) 
+    { 
+      Serial.print("Setting Temperature To: ");
+      Serial.println(message.getInt());
+      targetTemp = message.getFloat();
+      saveState(0, targetTemp); //Save the targetTemperature on the EPROM so you can retrieve if the arduino loses power.
+    }
+ 
+    if (message.type == V_HVAC_FLOW_STATE) 
+    {
+      Serial.print(F("Setting Mode To: "));
+      Serial.println(message.getInt());
+      statusHVAC = message.getInt();
+      saveState(1, statusHVAC);
+    }
+ 
+}
