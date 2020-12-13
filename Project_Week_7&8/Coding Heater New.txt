@@ -1,0 +1,80 @@
+#include <iostream>
+using namespace std;
+
+class TemperatureSensor
+{
+public:
+	int Temperature;
+	void Detect_Outside_Temperature();
+};
+
+Class SmartHomeSystem
+{
+public:
+void turn_on_heater();
+void turn_off_heater();
+void turn_on_air_conditioner();
+void turn_off_air_conditioner();
+
+};
+
+Class Heater
+{
+public:
+
+	int temperature;
+	void release_hot_air();
+
+};
+
+Class AirConditioner
+{
+public :
+   int Temperature;
+void release_cool_air();
+
+};
+
+Class HomeOwner
+{
+public:
+	string name;
+int age;
+int id;
+
+};
+
+
+
+int main()
+{
+	int Temperature_High = 30;
+	int Temperature_Low = 10;
+	int a = Detect_Outside_Temperature();
+
+
+	if (a > Temperature_High) 
+	{
+		turn_on_air_conditioner();
+		turn_off_heater();
+		release_cool_air();
+
+	}
+
+	else if (a < Temperature_Low)
+	{
+		turn_off_air_conditioner();
+		turn_on_heater();
+		release_hot_air();
+	}
+
+	else
+	{
+		turn_off_air_conditioner(); 
+			turn_off_heater();
+
+	}
+}
+
+
+
