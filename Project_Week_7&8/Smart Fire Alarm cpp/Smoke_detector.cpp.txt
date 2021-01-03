@@ -1,0 +1,6 @@
+#include "Smoke_detector.h"
+#include <iostream>
+
+bool Smoke_detector :: sense_smoke(){
+    
+}
