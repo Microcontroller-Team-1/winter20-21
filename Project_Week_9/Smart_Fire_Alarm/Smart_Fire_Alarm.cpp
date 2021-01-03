@@ -11,7 +11,7 @@
 
 
 using namespace std;
-int state = 0;
+
 
 void main()
 {
@@ -31,7 +31,7 @@ void main()
 
         if (burning=1)
         {
-        BURNING_STATE:
+        //BURNING_STATE:
             green_light.turn_off_green_light();
             red_light.turn_on_red_light();
             door1.door_unlock();
