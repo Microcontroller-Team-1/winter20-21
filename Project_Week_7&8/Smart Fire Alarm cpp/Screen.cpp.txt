@@ -1,0 +1,10 @@
+#include "Screen.h"
+#include <iostream>
+
+void Screen :: LCD_Display("All Clear"){
+    
+}
+
+void Screen :: LCD_Display("Evacuate"){
+    
+}
