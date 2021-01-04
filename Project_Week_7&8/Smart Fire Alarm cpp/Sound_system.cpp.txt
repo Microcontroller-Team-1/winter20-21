@@ -1,0 +1,10 @@
+#include "Sound_system.h"
+#include <iostream>
+
+void Sound_system :: play_sound(){
+    
+}
+
+void Sound_system :: notone(){
+    
+}
