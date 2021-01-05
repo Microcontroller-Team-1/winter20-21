@@ -9,28 +9,39 @@
 #include <iostream>
 
 
+#define INITIAL_STATE 0
+#define BURNING_STATE 1
+
+
 
 using namespace std;
+int state = 0
 
 
 void main()
-{
-    Light green_light;
-    Light red_light;
-    Water water1;
-    Screen Display1;
-    Screen Display2;
-    Door door1;
-    SoundSystem music;
-    Window window1;
-    Heater heater1;
-    Heater Temp;
-    Smoke_detector DetSmoke;
-    int burning;
-    cin >> burning;
 
-        if (burning=1)
-        {
+Light green_light;
+Light red_light;
+Water water1;
+Screen Display1;
+Screen Display2;
+Door door1;
+SoundSystem music;
+Window window1;
+Heater heater1;
+Heater Temp;
+Smoke_detector DetSmoke;
+
+int burning;
+cin >> 1;
+
+
+switch (state)
+
+{
+case BURNING_STATE:
+
+  
         //BURNING_STATE:
             green_light.turn_off_green_light();
             red_light.turn_on_red_light();
@@ -41,18 +52,19 @@ void main()
             Display1.LCD_Display_Evacuate();
             water1.turn_on_water_sprinkler();
             heater1.turn_off_heater();
+            break;
 
 
-        }
-
-        else {
+case INITIAL_STATE:
+            
             Temp.gettemperature();
             DetSmoke.sense_smoke();
             Display2.LCD_Display_All_Clear();
             music.notone();
-                green_light.turn_on_green_light();
+            green_light.turn_on_green_light();
             red_light.turn_off_red_light();
             heater1.turn_on_heater();
+            break;
         }
 
 }
