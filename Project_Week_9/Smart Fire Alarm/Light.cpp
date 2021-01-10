@@ -2,17 +2,19 @@
 #include <iostream>
 
 void Light::turn_on_green_light() {
-	cout << "green on";
+	cout << "Green light is on" << endl;
 }
 
 void Light::turn_off_green_light() {
+	cout << "Green light is off" << endl;
+
 
 }
 
 void Light::turn_on_red_light() {
-	cout << "red on";
+	cout << "Red light is on" << endl;
 }
 
 void Light::turn_off_red_light() {
-
+	cout << "Red light is off" << endl;
 }
