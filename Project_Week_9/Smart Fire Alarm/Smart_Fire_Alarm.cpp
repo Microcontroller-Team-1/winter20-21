@@ -19,7 +19,7 @@ int state;
 
 
 
-/*int main()
+int main()
 {
     Light green_light;
     Light red_light;
@@ -33,9 +33,13 @@ int state;
     Heater Temp;
     Smoke_detector DetSmoke;
 
+
     if (DetSmoke.sense_smoke())
     {
         state = 1;
+    }
+    else {
+        state = 0;
     }
 
     switch (state)
@@ -54,6 +58,7 @@ int state;
         water1.turn_on_water_sprinkler();
         heater1.turn_off_heater();
         break;
+    
     case INITIAL_STATE:
 
         Temp.gettemperature();
@@ -67,7 +72,7 @@ int state;
     }
 
 }
-*/
+
 
 
 
