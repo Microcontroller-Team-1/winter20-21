@@ -2,8 +2,8 @@
 
 using namespace std;
 
-#ifndef SOUND SYSTEM
-#define SOUND SYSTEM
+#ifndef SOUNDSYSTEM
+#define SOUNDSYSTEM
 
 class Smart_Home_System;
 class SoundSystem
